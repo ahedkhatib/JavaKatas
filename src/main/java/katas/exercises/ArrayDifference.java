@@ -1,5 +1,7 @@
 package katas.exercises;
 
+import java.util.Arrays;
+
 public class ArrayDifference {
 
     /**
@@ -9,6 +11,11 @@ public class ArrayDifference {
      * @return the difference between the largest and smallest numbers
      */
     public static int findDifference(int[] numbers) {
+        if(numbers != null && numbers.length > 0) {
+            int maxValue = Arrays.stream(numbers).max().getAsInt();
+            int minValue = Arrays.stream(numbers).min().getAsInt();
+            return maxValue - minValue;
+        }
         return 0;
     }
 
