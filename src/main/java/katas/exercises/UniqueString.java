@@ -1,6 +1,7 @@
 package katas.exercises;
 
 import java.util.HashSet;
+import java.util.Locale;
 
 public class UniqueString {
 
@@ -11,6 +12,14 @@ public class UniqueString {
      * @return true if all characters are unique, false otherwise
      */
     public static boolean isUnique(String str) {
+        if (str == null || str.equals(""))
+            return true;
+        HashSet<Character> characters = new HashSet<Character>();
+        for(Character c: str.toLowerCase().toCharArray()){
+            if(characters.contains(c))
+                return false;
+            characters.add(c);
+        }
         return true;
     }
 

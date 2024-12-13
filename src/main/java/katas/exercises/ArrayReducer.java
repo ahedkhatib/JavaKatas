@@ -1,5 +1,8 @@
 package katas.exercises;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public class ArrayReducer {
 
     /**
@@ -9,7 +12,12 @@ public class ArrayReducer {
      * @param numbers the array of integers to modify
      */
     public static void reduceArray(int[] numbers) {
-
+        if (numbers == null || numbers.length == 0){
+            return;
+        }
+        for (int i=numbers.length-1; i > 0; i--){
+            numbers[i] = numbers[i] - numbers[i-1];
+        }
     }
 
     public static void main(String[] args) {
