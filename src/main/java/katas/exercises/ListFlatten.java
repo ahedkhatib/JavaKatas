@@ -13,7 +13,18 @@ public class ListFlatten {
      */
     public static List<Integer> flattenList(List<Object> nestedList) {
         // hint: instanceof
-        return new ArrayList<>();
+        if (nestedList == null || nestedList.isEmpty())
+            return new ArrayList<>();
+
+        List<Integer> list = new ArrayList<>();
+        for(Object obj: nestedList){
+            if (obj instanceof List){
+                list.addAll(flattenList((List<Object>) obj));
+            }
+            else if (obj instanceof Integer)
+                list.add((Integer) obj);
+        }
+        return list;
     }
 
     public static void main(String[] args) {
