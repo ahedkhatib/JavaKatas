@@ -21,7 +21,23 @@ public class MaxStorageCapacity {
      */
     public static int maxStorageArea(int[] containers) {
         // Hint for efficient implementation: stack
-        return 0;
+        Stack<Integer> stack = new Stack<>();
+        int maxArea = 0;
+        int length = containers.length;
+
+        for (int i = 0; i <= length; i++) {
+            int currentHeight = (i == length) ? 0 : containers[i];
+
+            while (!stack.isEmpty() && currentHeight < containers[stack.peek()]) {
+                int height = containers[stack.pop()];
+                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                maxArea = Math.max(maxArea, height * width);
+            }
+
+            stack.push(i);
+        }
+
+        return maxArea;
     }
 
     public static void main(String[] args) {
