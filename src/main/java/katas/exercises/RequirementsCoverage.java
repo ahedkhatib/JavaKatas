@@ -1,6 +1,9 @@
 package katas.exercises;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RequirementsCoverage {
 
@@ -23,7 +26,47 @@ public class RequirementsCoverage {
      * @return a list of indices of the minimal subset of test cases that covers all requirements
      */
     public static List<Integer> selectMinimalTestCases(List<List<Integer>> testCases) {
-        return null;
+        if (testCases == null || testCases.isEmpty())
+        {
+            return List.of();
+        }
+
+        // All requirements into a set
+        Set<Integer> allRequirements = new HashSet<>();
+        for (List<Integer> testCase : testCases) {
+            allRequirements.addAll(testCase);
+        }
+
+        // All indices of test cases
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < testCases.size(); i++) {
+            indices.add(i);
+        }
+
+        List<Integer> bestSubset = null;
+
+        int n = indices.size();
+        // Iterate through all subsets of test cases
+        for (int i = 1; i < (1 << n); i++) {
+            List<Integer> subset = new ArrayList<>();
+            Set<Integer> coveredRequirements = new HashSet<>();
+
+            // Check each test case in the current subset
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) != 0) {
+                    subset.add(indices.get(j));
+                    coveredRequirements.addAll(testCases.get(j));
+                }
+            }
+
+            if (coveredRequirements.containsAll(allRequirements)) {
+                if (bestSubset == null || subset.size() < bestSubset.size()) {
+                    bestSubset = subset;
+                }
+            }
+        }
+
+        return bestSubset;
     }
 
     public static void main(String[] args) {
