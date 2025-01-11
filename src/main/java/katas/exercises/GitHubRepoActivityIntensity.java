@@ -2,8 +2,10 @@ package katas.exercises;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.Duration;
 import java.time.Instant;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -37,10 +39,11 @@ public class GitHubRepoActivityIntensity {
      */
     public static List<Instant> fetchCommitTimestamps(String owner, String repo) throws Exception {
         // example:
-        URL url = new URL("...");
+        URL url = new URL(GITHUB_API_BASE_URL + "%s/" + owner + "%s/" + repo );
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/vnd.github+json");
+        return null; //I added
     }
 
     /**
@@ -50,7 +53,17 @@ public class GitHubRepoActivityIntensity {
      * @return the average time in hours
      */
     public static double calculateAverageTimeBetweenCommits(List<Instant> timestamps) {
+        if (timestamps == null || timestamps.size() <= 1){
+            return 0.0;
+        }
+        Collections.sort(timestamps);
+        double totalHours = 0.0;
+        for(int i = 1; i < timestamps.size(); i++){
+            Duration duration = Duration.between(timestamps.get(i),timestamps.get(i-1));
+            totalHours += Math.abs(duration.toHours());
+        }
 
+        return totalHours / (timestamps.size() - 1);
     }
 
     public static void main(String[] args) {
