@@ -80,6 +80,35 @@ public class ETLTask {
 
 
             // TODO ....
+            String insertQuery = "INSERT INTO transformed_users (user_id, full_name, email, age_group, years_registered) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStm = targetConn.prepareStatement(insertQuery)) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    int age = rs.getInt("age");
+                    String registrationDate = rs.getString("registration_date");
+
+                    String ageGroup;
+                    if (age < 30) {
+                        ageGroup = "Under 30";
+                    } else if (age <= 60) {
+                        ageGroup = "30-60";
+                    } else {
+                        ageGroup = "60+";
+                    }
+
+                    LocalDate regDate = LocalDate.parse(registrationDate);
+                    int yearsRegistered = Period.between(regDate, LocalDate.now()).getYears();
+
+                    preparedStm.setInt(1, id);
+                    preparedStm.setString(2, name);
+                    preparedStm.setString(3, email);
+                    preparedStm.setString(4, ageGroup);
+                    preparedStm.setInt(5, yearsRegistered);
+                    preparedStm.executeUpdate();
+                }
+            }
         }
     }
 

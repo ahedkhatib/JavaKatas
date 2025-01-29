@@ -19,9 +19,30 @@ package katas.exercises;
  * You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
  */
 public class KthSmallestElementInBST {
+    static int count = 0;
+    static int result = -1;
 
     public static int kthSmallest(TreeNode root, int k) {
-        return -1;
+        count = 0;
+        result = -1;
+        inOrder(root, k);
+        return result;
+    }
+
+    public static void inOrder(TreeNode node, int k) {
+        if (node == null){
+            return;
+        }
+
+        inOrder(node.left, k);
+
+        count++;
+        if (count == k) {
+            result = node.val;
+            return;
+        }
+
+        inOrder(node.right, k);
     }
 
     public static void main(String[] args) {
