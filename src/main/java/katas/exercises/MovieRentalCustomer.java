@@ -2,6 +2,7 @@ package katas.exercises;
 
 import katas.exercises.movieRental.Movie;
 import katas.exercises.movieRental.Rental;
+import katas.exercises.movieRental.StatementFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class MovieRentalCustomer {
         return _name;
     }
 
-    public String statement() {
+    /*public String statement() {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
         String result = "Rental Record for " + getName() + "\n";
@@ -93,5 +94,17 @@ public class MovieRentalCustomer {
         result += "You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points";
 
         return result;
+    }*/
+
+    public String generateStatement(StatementFormatter formatter) {
+        double totalAmount = 0;
+        int frequentRenterPoints = 0;
+
+        for (Rental rental : _rentals) {
+            totalAmount += rental.getMovie().getCharge(rental.getDaysRented());
+            frequentRenterPoints += rental.getMovie().getFrequentRenterPoints(rental.getDaysRented());
+        }
+
+        return formatter.format(_name, _rentals, totalAmount, frequentRenterPoints);
     }
 }
