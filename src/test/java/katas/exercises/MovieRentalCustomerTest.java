@@ -28,7 +28,7 @@ public class MovieRentalCustomerTest {
                 "Amount owed is 19.0\n" +
                 "You earned 7 frequent renter points";
 
-        assertEquals(expected, customer.generateStatement(new TextStatementFormatter()));
+        assertEquals(expected, customer.statement(new TextStatementFormatter()));
     }
 
     @Test
@@ -54,9 +54,7 @@ public class MovieRentalCustomerTest {
                 "<p>Amount owed is <em>19.0</em></p>\n" +
                 "<p>You earned <em>7</em> frequent renter points</p>";
 
-        assertEquals(expected, customer.generateStatement(new HtmlStatementFormatter()));
-
-        //System.out.println(customer.generateStatement(new HtmlStatementFormatter()));
+        assertEquals(expected, customer.statement(new HtmlStatementFormatter()));
     }
 
     @Test
@@ -73,7 +71,7 @@ public class MovieRentalCustomerTest {
                 "Amount owed is 13.5\n" +
                 "You earned 4 frequent renter points";
 
-        assertEquals(expected, customer.generateStatement(new TextStatementFormatter()));
+        assertEquals(expected, customer.statement(new TextStatementFormatter()));
     }
 
 }
